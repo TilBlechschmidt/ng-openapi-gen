@@ -1,0 +1,17 @@
+{{{bodyMethodTsComments}}}{{methodName}}({{>operationParameters}}): Observable<{{{resultType}}}> {
+
+    /**
+     * Static mock data imported during code generation
+     */
+    const response: {{{resultType}}} = {{{operation.mockData}}};
+
+    const logEntry: {{operation.logEntryTypeName}} = {
+      id: '{{operation.id}}',
+      params,
+      response
+    };
+
+    this._requestLog.push(logEntry);
+
+    return of(response);
+  }

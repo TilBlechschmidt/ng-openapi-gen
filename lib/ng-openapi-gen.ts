@@ -67,6 +67,12 @@ export class NgOpenApiGen {
         this.write('service', service, service.fileName, 'services');
       }
 
+      // Generate mock services
+      for (const service of services) {
+        const fileName = `${service.fileName}.mock`;
+        this.write('serviceMock', service, fileName, 'services');
+      }
+
       // Context object passed to general templates
       const general = {
         services: services,

@@ -157,6 +157,10 @@
       "description": "When specified, does not generate a $Json suffix.",
       "default": false,
       "type": "boolean"
+    },
+    "mockDataDirectory": {
+      "description": "Directory containing mock data json files by operation name",
+      "type": "string"
     }
   }
 }

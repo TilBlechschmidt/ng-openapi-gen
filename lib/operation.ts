@@ -1,3 +1,5 @@
+import fs from 'fs-extra';
+import { join } from 'path';
 import { upperFirst, last } from 'lodash';
 import { ContentObject, MediaTypeObject, OpenAPIObject, OperationObject, ParameterObject, PathItemObject, ReferenceObject, RequestBodyObject, ResponseObject, SecurityRequirementObject, SecuritySchemeObject } from 'openapi3-ts';
 import { Content } from './content';
@@ -16,6 +18,9 @@ export class Operation {
   tags: string[];
   methodName: string;
   pathVar: string;
+  identVar: string;
+  logEntryTypeName: string;
+  parametersTypeName: string;
   parameters: Parameter[] = [];
   hasParameters: boolean;
   parametersRequired = false;
@@ -28,6 +33,8 @@ export class Operation {
   pathExpression: string;
   variants: OperationVariant[] = [];
 
+  mockData: string;
+
   constructor(
     public openApi: OpenAPIObject,
     public path: string,
@@ -39,7 +46,22 @@ export class Operation {
     this.path = this.path.replace(/\'/g, '\\\'');
     this.tags = spec.tags || [];
     this.pathVar = `${upperFirst(id)}Path`;
+    this.identVar = `${upperFirst(id)}ID`;
+    this.parametersTypeName = `${upperFirst(id)}Parameters`;
+    this.logEntryTypeName = `${upperFirst(id)}LogEntry`;
     this.methodName = spec['x-operation-name'] || this.id;
+
+    try {
+      if (!options.mockDataDirectory) throw new Error("No mock data directory provided");
+
+      const dataPath = join(options.mockDataDirectory, `${id}.json`);
+      const rawMockData = fs.readFileSync(dataPath, { encoding: 'utf8' });
+
+      this.mockData = JSON.stringify(JSON.parse(rawMockData));
+    } catch (error) {
+      console.warn(`No mock data found for operation ${id}`);
+      this.mockData = '{}';
+    }
 
     // Add both the common and specific parameters
     this.parameters = [

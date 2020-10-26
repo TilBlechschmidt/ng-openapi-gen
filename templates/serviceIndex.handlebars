@@ -1,2 +1,5 @@
 {{#services}}export { {{typeName}} } from './services/{{{fileName}}}';
 {{/services}}
+
+{{#services}}export { {{typeName}}Mock } from './services/{{{fileName}}}.mock';
+{{/services}}

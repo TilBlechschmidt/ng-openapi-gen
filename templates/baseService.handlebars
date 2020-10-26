@@ -4,6 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { {{configurationClass}} } from './{{configurationFile}}';
 
 /**
+ * Generic log entry that describes a HTTP request
+ */
+export type HttpLogEntry<Params, Response> = {
+    id: string,
+    params: Params,
+    response: Response
+};
+
+/**
  * Base class for services
  */
 @Injectable()
