@@ -1,7 +1,8 @@
 /* tslint:disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { {{baseServiceClass}}, HttpLogEntry } from '../{{baseServiceFile}}';
+import { HttpLogEntry } from '../{{baseServiceFile}}';
+import { {{typeName}} } from './{{fileName}}'
 import { {{configurationClass}} } from '../{{configurationFile}}';
 import { Observable, of } from 'rxjs';
 
@@ -19,7 +20,7 @@ type {{typeName}}LogEntry = {{#operations}}{{logEntryTypeName}}{{#unless @last}}
 {{{tsComments}}}@Injectable({
   providedIn: 'root',
 })
-export class {{typeName}}Mock extends {{baseServiceClass}} {
+export class {{typeName}}Mock extends {{typeName}} {
   private _requestLog: {{typeName}}LogEntry[] = [];
 
   constructor(
