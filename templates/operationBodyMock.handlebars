@@ -7,7 +7,7 @@
 
     const logEntry: {{operation.logEntryTypeName}} = {
       id: '{{operation.id}}',
-      params,
+      params: params{{^operation.parametersRequired}} || {}{{/operation.parametersRequired}},
       response
     };
 
